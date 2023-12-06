@@ -23,13 +23,18 @@ function cardAddition(cardName, cardLink, cardDelete) {
         cardDelete(evt);
     });
 
-    return placesList.append(cardElement);
+    return cardElement;
+
 }
 
 function cardDeletion(deleteButton) {
-    return deleteButton.target.parentElement.remove();
+    return deleteButton.target.closest('.places__item').remove();
+}
+
+function cardCreation(card) {
+    return placesList.prepend(card);
 }
 
 initialCards.forEach(element => {
-    cardAddition(element.name, element.link, cardDeletion);
+    cardCreation (cardAddition(element.name, element.link, cardDeletion));
 });
