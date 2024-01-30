@@ -5,11 +5,6 @@ export function openModal(element) {
         element.classList.add('popup_is-opened');
     }, 0);
 
-    const closeButton = element.querySelector('.popup__close');
-    closeButton.addEventListener('click', () => {
-        closeModal(element);
-    });
-
     element.addEventListener('click', closeModalOnOverlay);
     document.addEventListener('keydown', closeModalOnEsc);
 }
@@ -17,6 +12,7 @@ export function openModal(element) {
 export function closeModal(element) {
     element.classList.remove('popup_is-opened');
 
+    element.removeEventListener('click', closeModalOnOverlay);
     document.removeEventListener('keydown', closeModalOnEsc);
 
     setTimeout(() => {
