@@ -1,27 +1,45 @@
 import { cardTemplate, placesList } from '../index.js';
 
-export function createCard(cardName, cardLink, cardDelete, cardLike, cardOpen) {
+export function createCard(cardData, personalId, cardDelete, cardLike, cardOpen) {
     const cardElement = cardTemplate.content.querySelector('.card').cloneNode(true);
 
-    cardElement.querySelector('.card__image').src = cardLink;
-    cardElement.querySelector('.card__image').alt = cardName;
-    cardElement.querySelector('.card__title').textContent = cardName;
+    const cardImage = cardElement.querySelector('.card__image');
+    const cardTitle = cardElement.querySelector('.card__title');
+    const cardLikeButton = cardElement.querySelector('.card__like-button');
+    const cardLikes = cardElement.querySelector('.card__like-number');
+    const cardDeleteButton = cardElement.querySelector('.card__delete-button');
 
-    cardElement.querySelector('.card__delete-button').addEventListener('click', cardDelete);
-    cardElement.querySelector('.card__like-button').addEventListener('click', cardLike);
-    cardElement.querySelector('.card__image').addEventListener('click', () => {
-        cardOpen(cardLink, cardName);
+    cardData.likes.forEach(element => {
+        if(element._id === personalId) {
+            likeCard(cardLikeButton);
+        }
     });
 
+    if(cardData.owner._id !== personalId) {
+        cardDeleteButton.remove();
+    }
+
+    cardImage.src = cardData.link;
+    cardImage.alt = cardData.name;
+    cardTitle.textContent = cardData.name;
+    cardLikes.textContent = cardData.likes.length;
+
+    cardDeleteButton.addEventListener('click', cardDelete);
+    cardLikeButton.addEventListener('click', cardLike);
+    cardImage.addEventListener('click', () => {
+        cardOpen(cardData.link, cardData.name);
+    });
+
+    cardElement.setAttribute("id", cardData._id);
     return cardElement;
 }
 
 export function deleteCard(deleteButton) {
-    deleteButton.target.closest('.places__item').remove();
+    deleteButton.closest('.places__item').remove();
 }
 
 export function likeCard(likeButton) {
-    likeButton.target.classList.toggle('card__like-button_is-active');
+    likeButton.classList.toggle('card__like-button_is-active');
 }
 
 export function addCard(card) {
