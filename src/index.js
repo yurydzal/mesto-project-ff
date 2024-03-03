@@ -1,5 +1,4 @@
 import './pages/index.css';
-// import { initialCards } from './components/cards.js';
 import { addCard, createCard, deleteCard, likeCard } from './components/card.js';
 import { openModal, closeModal } from './components/modal.js';
 import { enableValidation, clearValidation } from './components/validation.js';
@@ -59,9 +58,7 @@ Promise.all([getUserApi(), getCardsApi()])
             addCard(createCard(card, userId, handleCardDelete, handleCardLike, openCard));
         })
     })
-    .catch((err) => {
-        console.log(err);
-    })
+    .catch(err => console.log(err))
 
 function handleCardDelete(evt) {
     evt.preventDefault();
@@ -69,33 +66,19 @@ function handleCardDelete(evt) {
     .then(() => {
         deleteCard(evt.target.closest(".card__delete-button"));
     })
-    .catch((err) => {
-        console.log(err);
-    })
+    .catch(err => console.log(err))
 }
 
 function handleCardLike(evt) {
     const card = evt.target.closest(".places__item");
     const likeNumber = card.querySelector(".card__like-number");
-    if(evt.target.closest(".card__like-button_is-active")) {
-        unlikeCardApi(card.id)
+    const likeMethod = evt.target.closest(".card__like-button_is-active") ? unlikeCardApi : likeCardApi;
+    likeMethod(card.id)
         .then((res) => {
             likeCard(evt.target.closest(".card__like-button"));
             likeNumber.textContent = res.likes.length;
         })
-        .catch((err) => {
-            console.log(err);
-        })
-    } else {
-        likeCardApi(card.id)
-        .then((res) => {
-            likeCard(evt.target.closest(".card__like-button"));
-            likeNumber.textContent = res.likes.length;
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-    }
+    .catch(err => console.log(err))
 }
 
 function openCard(imageSrc, imageAlt) {
@@ -109,14 +92,12 @@ function handleFormEdit(evt) {
     evt.preventDefault();
     formElementProfile.querySelector('.popup__button').textContent = "Сохранение...";
     editProfileApi(nameInput.value, jobInput.value)
-    .then(() => {
-        profileTitle.textContent = nameInput.value;
-        profileDescription.textContent = jobInput.value;
+    .then((res) => {
+        profileTitle.textContent = res.name;
+        profileDescription.textContent = res.about;
         closeModal(popUpTypeEdit);
     })
-    .catch((err) => {
-        console.log(err);
-    })
+    .catch(err => console.log(err))
     .finally(() => {
         formElementProfile.querySelector('.popup__button').textContent = "Сохранить";
     });
@@ -131,9 +112,7 @@ function handleFormAdd(evt) {
         closeModal(popUpTypeNewCard);
         formElementNewPlace.reset();
     })
-    .catch((err) => {
-        console.log(err);
-    })
+    .catch(err => console.log(err))
     .finally(() => {
         formElementNewPlace.querySelector('.popup__button').textContent = "Сохранить";
     });
@@ -147,9 +126,7 @@ function handleFormAvatar(evt) {
         profileImageButton.setAttribute("style", `background-image:url(${res.avatar})`);
         closeModal(popUpTypeAvatar);
     })
-    .catch((err) => {
-        console.log(err);
-    })
+    .catch(err => console.log(err))
     .finally(() => {
         formElementAvatar.querySelector('.popup__button').textContent = "Сохранить";
     });

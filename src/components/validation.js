@@ -1,5 +1,3 @@
-// clearValidation(profileForm, validationConfig);
-
 export const enableValidation = (configObject) => {
     const formList = Array.from(document.querySelectorAll(configObject.formSelector));
     formList.forEach((formElement) => {
@@ -10,14 +8,23 @@ export const enableValidation = (configObject) => {
     });
 };
 
+const disableSubmitButton = (element, state, inactiveClass) => {
+    if (state === true) {
+        element.disabled = state;
+        element.classList.add(inactiveClass);
+    } else {
+        element.disabled = state;
+        element.classList.remove(inactiveClass);
+    }
+}
+
 export const clearValidation = (form, configObject) => {
     const inputList = form.querySelectorAll(configObject.inputSelector);
     const button = form.querySelector(configObject.submitButtonSelector);
     inputList.forEach((input) => {
         hideInputError(form, input, configObject.inputErrorClass, configObject.errorClass);
     });
-    button.disabled = true;
-    button.classList.add(configObject.inactiveButtonClass);
+    disableSubmitButton(button, true, configObject.inactiveButtonClass);
 };
 
 const setEventListeners = (formElement, configObject) => {
@@ -61,11 +68,9 @@ const hideInputError = (formElement, inputElement, inputErrorClass, errorClass) 
 
 const toggleButtonState = (inputList, buttonElement, inactiveButtonClass) => {
     if (hasInvalidInput(inputList)) {
-        buttonElement.disabled = true;
-        buttonElement.classList.add(inactiveButtonClass);
+        disableSubmitButton(buttonElement, true ,inactiveButtonClass);
     } else {
-        buttonElement.disabled = false;
-        buttonElement.classList.remove(inactiveButtonClass);
+        disableSubmitButton(buttonElement, false ,inactiveButtonClass);
     }
 };
 

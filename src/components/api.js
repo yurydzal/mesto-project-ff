@@ -19,18 +19,14 @@ export const getUserApi = () => {
     return fetch(`${config.baseUrl}users/me`, {
         headers: config.headers,
     })
-    .then((res) => {
-        return handleRequest(res);
-    })
+    .then(handleRequest)
 };
 
 export const getCardsApi = () => {
     return fetch(`${config.baseUrl}cards`, {
         headers: config.headers,
     })
-    .then((res) => {
-        return handleRequest(res);
-    })
+    .then(handleRequest)
 };
 
 export const editProfileApi = (name, job) => {
@@ -42,9 +38,7 @@ export const editProfileApi = (name, job) => {
             about: job,
         })
     })
-    .then((res) => {
-        return handleRequest(res);
-    })
+    .then(handleRequest)
 };
 
 export const addCardApi = (name, link) => {
@@ -56,9 +50,7 @@ export const addCardApi = (name, link) => {
             link: link,
         })
     })
-    .then((res) => {
-        return handleRequest(res);
-    })
+    .then(handleRequest)
 };
 
 export const deleteCardApi = (cardId) => {
@@ -69,9 +61,7 @@ export const deleteCardApi = (cardId) => {
             _id: cardId,
         })
     })
-    .then((res) => {
-        return handleRequest(res);
-    })
+    .then(handleRequest)
 };
 
 export const likeCardApi = (card) => {
@@ -79,9 +69,7 @@ export const likeCardApi = (card) => {
         method: "PUT",
         headers: config.headers,
     })
-    .then((res) => {
-        return handleRequest(res);
-    })
+    .then(handleRequest)
 };
 
 export const unlikeCardApi = (card) => {
@@ -89,9 +77,7 @@ export const unlikeCardApi = (card) => {
         method: "DELETE",
         headers: config.headers,
     })
-    .then((res) => {
-        return handleRequest(res);
-    })
+    .then(handleRequest)
 };
 
 export const editProfileAvatarApi = (link) => {
@@ -102,7 +88,5 @@ export const editProfileAvatarApi = (link) => {
             avatar: link
         })
     })
-    .then((res) => {
-        return handleRequest(res);
-    })
+    .then(handleRequest)
 }

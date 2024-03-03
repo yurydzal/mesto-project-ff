@@ -9,14 +9,14 @@ export function createCard(cardData, personalId, cardDelete, cardLike, cardOpen)
     const cardLikes = cardElement.querySelector('.card__like-number');
     const cardDeleteButton = cardElement.querySelector('.card__delete-button');
 
-    cardData.likes.forEach(element => {
-        if(element._id === personalId) {
-            likeCard(cardLikeButton);
-        }
-    });
+    if(cardData.likes.some(element => element._id === personalId)){
+        likeCard(cardLikeButton);
+    }
 
     if(cardData.owner._id !== personalId) {
         cardDeleteButton.remove();
+    } else {
+        cardDeleteButton.addEventListener('click', cardDelete);
     }
 
     cardImage.src = cardData.link;
@@ -24,7 +24,6 @@ export function createCard(cardData, personalId, cardDelete, cardLike, cardOpen)
     cardTitle.textContent = cardData.name;
     cardLikes.textContent = cardData.likes.length;
 
-    cardDeleteButton.addEventListener('click', cardDelete);
     cardLikeButton.addEventListener('click', cardLike);
     cardImage.addEventListener('click', () => {
         cardOpen(cardData.link, cardData.name);
