@@ -8,14 +8,9 @@ export const enableValidation = (configObject) => {
     });
 };
 
-const disableSubmitButton = (element, state, inactiveClass) => {
-    if (state === true) {
-        element.disabled = state;
-        element.classList.add(inactiveClass);
-    } else {
-        element.disabled = state;
-        element.classList.remove(inactiveClass);
-    }
+const disableSubmitButton = (element, inactiveClass) => {
+    element.disabled = true;
+    element.classList.add(inactiveClass);
 }
 
 export const clearValidation = (form, configObject) => {
@@ -24,7 +19,7 @@ export const clearValidation = (form, configObject) => {
     inputList.forEach((input) => {
         hideInputError(form, input, configObject.inputErrorClass, configObject.errorClass);
     });
-    disableSubmitButton(button, true, configObject.inactiveButtonClass);
+    disableSubmitButton(button, configObject.inactiveButtonClass);
 };
 
 const setEventListeners = (formElement, configObject) => {
@@ -68,9 +63,10 @@ const hideInputError = (formElement, inputElement, inputErrorClass, errorClass) 
 
 const toggleButtonState = (inputList, buttonElement, inactiveButtonClass) => {
     if (hasInvalidInput(inputList)) {
-        disableSubmitButton(buttonElement, true ,inactiveButtonClass);
+        disableSubmitButton(buttonElement, inactiveButtonClass);
     } else {
-        disableSubmitButton(buttonElement, false ,inactiveButtonClass);
+        buttonElement.disabled = false;
+        buttonElement.classList.remove(inactiveButtonClass);
     }
 };
 
